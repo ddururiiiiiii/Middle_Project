@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Community">
+
+<!-- 댓글 전체 출력 -->
+<select id="getAllCommunityCm" resultClass="kr.or.ddit.boardComment.vo.CommunityCmVO" parameterClass="String">
+	SELECT A.CC_NM       ccNm                           
+	      , A.CC_CONTENT ccContent                      
+	      , A.CC_DATE    ccDate                         
+	      , A.CC_TYPE    ccType                         
+	      , A.CB_NM      cbNm                           
+	      , B.USER_NICKNAME ccWriter                    
+	FROM COMMUNITY_COMMENT A INNER JOIN TB_USER B       
+							ON(A.USER_ID = B.USER_ID)   
+	WHERE A.CB_NM = #cbNm#                              
+	ORDER BY 1 DESC                                     
+	
+</select>
+
+<!-- 댓글 작성 -->
+<insert id="insertCommunityCm" parameterClass="kr.or.ddit.boardComment.vo.CommunityCmVO">
+	INSERT INTO COMMUNITY_COMMENT(
+	      CC_NM
+	    ,  CC_CONTENT
+	    ,  CC_DATE
+	    ,  CC_TYPE
+	    ,  CB_NM
+	    ,  USER_ID
+	)
+	VALUES (
+		COMMUNITY_BOARD_COMMENT_SEQ.NEXTVAL
+	    , #ccContent#
+	    , SYSDATE
+	    , 'N'
+	    , #cbNm#
+	    , #ccWriter#
+	)
+</insert>
+
+<!-- 댓글 수정 -->
+<update id="updateCommunityCm" parameterClass="kr.or.ddit.boardComment.vo.CommunityCmVO">
+	UPDATE COMMUNITY_COMMENT
+	SET CC_CONTENT = #ccContent# 
+	    CC_DATE = SYSDATE    
+	    CC_TYPE = #ccType#    
+	WHERE CC_NM = #ccNm#
+	AND CB_NM = #cbNm#
+</update>
+
+<!-- 댓글 삭제 -->
+<delete id="deleteCommunityCm" parameterClass="kr.or.ddit.boardComment.vo.CommunityCmVO">
+	DELETE FROM COMMUNITY_COMMENT
+	WHERE CC_NM = #ccNm#
+	AND  CB_NM = #cbNm#
+</delete>
+
+</sqlMap>

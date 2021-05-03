@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>게시글 상세조회</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/Team_Sprout/css/main/boardDetail.css">
+
+</head>
+<body>
+	<!-- 테이블 -->
+	<div class="container">
+		<table class="table">
+			<thead>
+				<tr id="head">
+					<th>번호</th>
+					<td>1</td>
+					<th>가입일</th>
+					<td>21-01-01</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>회원ID</th>
+					<td colspan="3"><input type="text" class="form-control"  id="userId" name="userId" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>이름</th>
+					<td colspan="3">
+						<input type="text" class="form-control"  id="userName" name="userName" readonly="readonly">
+					</td>
+				</tr>
+				<tr>
+					<th>닉네임</th>
+					<td colspan="3"><input type="text" id="userNickName" name="userNickName" class="form-control"></td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td colspan="3"><input type="password" id="userPw" name="userPw" class="form-control"></td>
+				</tr>
+				<tr>
+					<th>관심분야</th>
+					<td colspan="3">
+					<div id="likey"></div>
+					</td>
+				</tr>
+				<tr>
+					<th>생년월일</th>
+					<td colspan="3"><label for="year">년 </label> <input
+						type="text" id="year" class="form-control"> <label
+						for="month">월</label> <select id="month"></select> <label
+						for="day">일</label> <input type="text" id="day"
+						class="form-control"> <input type="hidden" id="userBir"
+						name="userBir"></td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td colspan="3">
+						<label for="sample6_postcode">우편번호 </label>
+						<input type="text"
+							class="form-control" id="sample6_postcode" name="userZip" placeholder="우편번호를 검색하세요."
+							readonly="readonly">
+						<input type="button" class="btn btn-success"
+							onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+						
+						<label for="sample6_extraAddress"></label>
+						<input type="text"
+							class="form-control" id="sample6_extraAddress" placeholder="구, 군"
+							readonly="readonly">
+							<label for="sample6_extraAddress">상세주소</label>
+						<input type="text"
+							class="form-control" id="sample6_extraAddress" placeholder="상세주소를 입력해주세요.">
+					</td>
+				</tr>
+				<tr>
+					<th>블랙리스트 등록일</th>
+					<td>2021-01-21 </td>
+				</tr>
+				<tr>
+					<th>블랙리스트 사유</th>
+					<td>회원 신고 10회 이상 </td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<hr>
+		
+		<!-- 등록 수정 삭제 버튼  -->
+		<div id="btn">
+			<button type="button" class="btn btn-success">목록</button>
+			<button type="button" class="btn btn-success">메세지 전송</button>
+			<button type="button" class="btn btn-success">블랙리스트 해제</button>
+			<button type="button" class="btn btn-success">회원정보수정</button>
+			<button type="button" class="btn btn-success">회원삭제</button>
+		</div>	
+		</table>
+
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="noticeBoard">
+
+<!-- 공지사항 등록 -->
+<insert id="insertNoticeBoard" parameterClass="kr.or.ddit.board.vo.NoticeBoardVO">
+	INSERT INTO NOTICE_BOARD (
+	NOTICE_NM
+	,NOTICE_TITLE
+	,NOTICE_CONTENT
+	,NOTICE_DATE
+	,USER_ID
+	,ATCH_FILE_ID
+	,NOTICE_STATE
+
+	) VALUES(
+	NOTICE_BOARD_SEQ.NEXTVAL
+	,#noticeTitle#
+	,#noticeContent#
+	,SYSDATE
+	,#noticeWriter#
+	,#atchFileId#
+	,'Y'
+	)
+</insert>
+
+<!-- 공지사항 조회 -->
+<select id="getAllNoticeBoard" resultClass="kr.or.ddit.board.vo.NoticeBoardVO">
+	SELECT  NOTICE_NM         noticeNm
+	        ,NOTICE_TITLE     noticeTitle
+	        ,NOTICE_CONTENT   noticeContent
+	        , TO_CHAR(NOTICE_DATE, 'YYYY-MM-DD') noticeDate
+	        , (
+			 	SELECT USER_NICKNAME 
+			 	FROM   TB_USER
+			 	WHERE  USER_ID = A.USER_ID
+			 	)			  noticeWriter
+	        ,ATCH_FILE_ID     atchFileId
+	        ,NOTICE_STATE     noticeState
+	FROM NOTICE_BOARD A
+
+</select>
+
+<!-- 공지사항 수정 -->
+<update id="updateNoticeBoard" parameterClass="kr.or.ddit.board.vo.NoticeBoardVO">
+	UPDATE NOTICE_BOARD
+	SET 
+	 NOTICE_TITLE = #noticeTitle#
+	, NOTICE_CONTENT = #noticeContent#
+	, NOTICE_DATE    = SYSDATE
+	, ATCH_FILE_ID = #atchFileId#
+	WHERE NOTICE_NM = #noticeNm#
+</update>
+
+<!-- 공지사항 삭제 -->
+<delete id="deleteNoticeBoard" parameterClass="String">
+	UPDATE NOTICE_BOARD
+		SET    NOTICE_STATE = 'N'
+		WHERE  NOTICE_NM = #noticeNm#
+</delete>
+
+<!-- 공지사항  검색 -->
+<select id="getsearchNoticeBoard" parameterClass="String" resultClass="kr.or.ddit.board.vo.NoticeBoardVO">
+	SELECT
+	    A.NOTICE_NM noticeNm,
+	    A.NOTICE_TITLE noticeTitle,
+	    A.NOTICE_CONTENT noticeContent,
+	    TO_CHAR(A.NOTICE_DATE,'YYYY-MM-DD') noticeDate,
+	    B.USER_NICKNAME noticeWriter
+		FROM
+		    NOTICE_BOARD A INNER JOIN TB_USER B ON (A.USER_ID = B.USER_ID)
+		WHERE  A.NOTICE_TITLE LIKE '%' || #noticeTitle# || '%'
+		AND    A.NOTICE_STATE = 'Y'
+</select>
+
+<!-- 해당번호에 해당하는 공지사항 조회 -->
+<select id="getNoticeBoardInfo" resultClass="kr.or.ddit.board.vo.NoticeBoardVO">
+	SELECT  NOTICE_NM         noticeNm
+	        ,NOTICE_TITLE     noticeTitle
+	        ,NOTICE_CONTENT   noticeContent
+	        , TO_CHAR(NOTICE_DATE, 'YYYY-MM-DD') noticeDate
+	        , (
+			 	SELECT USER_NICKNAME 
+			 	FROM   TB_USER
+			 	WHERE  USER_ID = A.USER_ID
+			 	)			  noticeWriter
+	        ,ATCH_FILE_ID     atchFileId
+	        ,NOTICE_STATE     noticeState
+	FROM NOTICE_BOARD A
+	WHERE NOTICE_NM = #noticeNm#
+</select>
+
+<!-- 모든 게시글의 갯수 -->
+<select id="getNoticeBoardListCount" resultClass="int">
+	SELECT COUNT(*) cnt
+	FROM   NOTICE_BOARD
+	WHERE  NOTICE_STATE = 'Y'
+</select>
+</sqlMap>

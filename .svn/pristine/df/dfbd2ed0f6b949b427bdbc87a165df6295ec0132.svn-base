@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="freeBoard">
+
+	<select id="getAllFreeBoard" parameterClass="kr.or.ddit.comm.vo.PagingVO" resultClass="kr.or.ddit.board.vo.FreeBoardVO">
+		SELECT B.*
+		FROM
+			(SELECT AAA.*, ROWNUM RNUM
+			 FROM(
+			 	   SELECT AA.FREE_NM       freeNm
+					    , AA.FREE_TITLE    freeTitle
+					    , AA.FREE_CONTENT  freeContent
+					    , TO_CHAR(AA.FREE_DATE, 'YYYY-MM-DD')     freeDate
+					    , (
+						 	SELECT USER_NICKNAME
+			 			 	FROM   TB_USER
+			 			 	WHERE  USER_ID = AA.USER_ID
+		 				    )            freeWriter
+		 			    , AA.ATCH_FILE_ID atchFileId
+					FROM (SELECT A.*
+					  	       , ROWNUM AS RNUM 
+					      FROM   FREE_BOARD A) AA
+					WHERE AA.FREE_STATE = 'Y' 
+					ORDER BY AA.FREE_NM DESC) AAA
+			   ) B
+        WHERE RNUM
+		BETWEEN #firstRecNo# AND #lastRecNo#
+	</select>
+	
+	<!-- 모든 게시글의 갯수 -->
+	<select id="getFreeBoardListCount" resultClass="int">
+		SELECT COUNT(*) cnt
+		FROM   FREE_BOARD
+		WHERE  FREE_STATE = 'Y'
+	</select>
+	
+	<select id="getFreeBoard" parameterClass="String" resultClass="kr.or.ddit.board.vo.FreeBoardVO">
+		SELECT A.FREE_NM      freeNm
+			 , A.FREE_TITLE   freeTitle
+			 , A.FREE_CONTENT freeContent
+			 , A.FREE_DATE    freeDate
+			 , (
+			 	SELECT USER_NICKNAME 
+			 	FROM   TB_USER
+			 	WHERE  USER_ID = A.USER_ID
+			 	)			  freeWriter 
+			 , A.ATCH_FILE_ID atchFileId
+		FROM   FREE_BOARD A			
+		WHERE  1=1
+		AND    A.FREE_NM = #freeNm#
+		AND    A.FREE_STATE = 'Y'
+	</select>
+	
+	<insert id="insertFreeBoard" parameterClass="kr.or.ddit.board.vo.FreeBoardVO">
+		INSERT INTO FREE_BOARD(
+			 FREE_NM
+			,FREE_TITLE
+			,FREE_CONTENT
+			,FREE_DATE
+			,USER_ID
+			,ATCH_FILE_ID 
+			,FREE_STATE
+		)
+		VALUES (
+			FREE_BOARD_SEQ.NEXTVAL
+		  , #freeTitle#
+		  , #freeContent#
+		  , SYSDATE
+		  , #freeWriter#
+		  , #atchFileId#
+		  , 'Y'
+		)
+	</insert>
+	
+	<update id="updateFreeBoard" parameterClass="kr.or.ddit.board.vo.FreeBoardVO">
+		UPDATE  FREE_BOARD
+		SET	    FREE_TITLE   = #freeTitle#
+			   ,FREE_CONTENT = #freeContent#
+			   ,FREE_DATE    = SYSDATE
+			   ,ATCH_FILE_ID = #atchFileId#            
+		WHERE   FREE_NM = #freeNm#
+	</update>
+	
+	<delete id="deleteFreeBoard" parameterClass="kr.or.ddit.board.vo.FreeBoardVO">
+		UPDATE FREE_BOARD
+		SET    FREE_STATE = 'N'
+		WHERE  FREE_NM = #freeNm#
+	</delete>
+	
+	<select id="searchFreeBoard" parameterClass="String" resultClass="kr.or.ddit.board.vo.FreeBoardVO">
+		SELECT A.FREE_NM       freeNm
+			 , A.FREE_TITLE    freeTitle
+			 , A.FREE_CONTENT  freeContent
+			 , A.FREE_DATE     freeDate
+			 , B.USER_NICKNAME freeWriter 
+			 , A.ATCH_FILE_ID atchFileId
+		FROM   FREE_BOARD A INNER JOIN TB_USER B ON(A.USER_ID = B.USER_ID)	
+		WHERE  1=1
+		AND    A.FREE_STATE = 'Y'
+		AND    A.FREE_TITLE LIKE '%' || #freeTitle# || '%'
+		OR     B.USER_NICKNAME LIKE '%' || #freeWriter# || '%'
+	</select>
+</sqlMap>

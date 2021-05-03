@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Bootstrap Example</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Lato"
+	rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat"
+	rel="stylesheet" type="text/css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="/Team_Sprout/css/main/prjDetail.css">
+<body>
+
+	<!-- 프로젝트 제목 -->
+	<div class="col-sm-12">
+
+		<!-- 왼쪽 공백 2 -->
+		<div class="col-sm-2"></div>
+
+		<!-- 제목 -->
+		<div class="col-sm-8" id="divCategory">
+			<br>
+			<br> <span id="spanCategory">주얼리</span>
+			<h2>잃어버린 상상력을 찾아, 코끼리를 삼킨 보아뱀 은반지</h2>
+			<br>
+			<h4>WHY</h4>
+		</div>
+
+		<!-- 오른쪽 공백 2 -->
+		<div class="col-sm-2"></div>
+
+	</div>
+
+	<!-- 프로젝트 사진 / 설명 -->
+	<div class="col-sm-12">
+		<!-- 왼쪽 공백 2 -->
+		<div class="col-sm-2"></div>
+
+		<!-- 썸네일 -->
+		<div class="col-sm-5">
+			<img src="/images/thum1.jpg" id="thumImage">
+		</div>
+		<!-- 설명 -->
+		<div class="col-sm-3">
+			<p>모인금액</p>
+			<h3>
+				<p>22,000,000원</p>
+			</h3>
+			<br>
+			<p>프로젝트 마감일</p>
+			<h3>
+				<p>2021년 5월 30일</p>
+			</h3>
+			<br>
+			<p>후원자</p>
+			<h3>
+				<p>876명</p>
+			</h3>
+			<br>
+			<br>
+			<br>
+			<button type="button" class="btn btn-default btn-lg">큰 버튼</button>
+		</div>
+
+		<!-- 오른쪽 공백 2 -->
+		<div class="col-sm-2"></div>
+	</div>
+
+
+	<!-- 프로젝트 옵션 / 상세 설명 -->
+	<div class="col-sm-12">
+		<!-- 왼쪽 공백 2 -->
+		<div class="col-sm-2"></div>
+
+		<!-- 옵션 -->
+		<div class="col-sm-2">
+			<div id="divOption">
+				<p>옵션1
+				<p>
+				<h4>10,000원 이상</h4>
+				<span>어쩌구 저쩌구 선물</span>
+			</div>
+			<br>
+			<div id="divOption">
+				<p>옵션2
+				<p>
+				<h4>30,000원 이상</h4>
+				<span>어쩌구 저쩌구 선물</span>
+			</div>
+			<br>
+			<div id="divOption">
+				<p>옵션3
+				<p>
+				<h4>50,000원 이상</h4>
+				<span>어쩌구 저쩌구 선물</span>
+			</div>
+			<br>
+		</div>
+		<!-- 상세 설명 -->
+		<div class="col-sm-6">
+			<h3>프로젝트 소개</h3>
+			<p>안녕하세요, [WHY?] 주얼리입니다. 많은 분들의 관심 덕분에 펀딩 시작 일주일이 채 넘기도 전에 벌써 달성률
+				1800%를 넘었습니다! 어찌 감사의 말씀을 드려야 할지 모를 정도로 정말 너무나 감사드립니다.. 더욱 열심히 작업해서
+				최대한 빠른 시일 내에 예쁜 작품 받아보실 수 있도록 노력하겠습니다.</p>
+			<br>
+			<p>기대보다 더 많은 분들이 좋아해 주셔서, 오히려 새로운 고민이 생겼습니다. 모든 작품이 핸드메이드로 직접
+				제작되다 보니, 처음 약속드린 5월 첫 주 배송 시작이 모든 후원자분들께는 어려울 수도 있겠다는 결론에 이르렀습니다.
+				디자이너로서 배송 압박 때문에 절대로 작품 완성도를 낮출 수는 없기에, 고민 끝에 4월 13일 00:00 이후 후원해
+				주시는 분들은 5월 둘째 주에 2차 배송, 4월 15일 00:00 이후 후원해 주시는 분들은 2차 배송 이후 20명씩
+				후원순으로 3차 배송을 진행해드리고자 합니다.</p>
+			<br>
+			<p>기존 약속 기한을 모든 분들께 지켜드리지 못해 죄송합니다. 한 분 한 분 최대한 완벽한 제품을 보내드리고자 내린
+				결정이오니 후원자분들의 너그러운 양해 부탁드립니다.</p>
+			<p>디자이너로서 작품 하나하나 최선을 다하겠습니다, 감사합니다! *</p>
+		</div>
+
+		<!-- 오른쪽 공백 2 -->
+		<div class="col-sm-2"></div>
+	</div>
+
+
+	<!-- top -->
+	<a style="display: scroll; position: fixed; bottom: 40px; right: 40px;"
+		href="#" title="top"><img src="/images/topbutton.png"
+		width="40px"></a>
+
+</body>
+</html>

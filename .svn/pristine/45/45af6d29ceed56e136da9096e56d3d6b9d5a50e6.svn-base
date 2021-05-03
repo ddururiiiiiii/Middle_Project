@@ -1,0 +1,30 @@
+@charset "UTF-8";
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	color: #3d3d3d;
+	
+}
+p {
+	padding: 0px;
+	margin: 0px;
+}
+
+#divReult {
+	background-color: #fafafa;
+	border: 1px solid #efefef;
+	padding: 20px;
+}
+
+#btn {
+	text-align: right;
+}
+
+select.selectpicker {
+	width: 500px;
+	height: 34px;
+}
+
+input.form-control {
+	width: 300px;
+	
+}

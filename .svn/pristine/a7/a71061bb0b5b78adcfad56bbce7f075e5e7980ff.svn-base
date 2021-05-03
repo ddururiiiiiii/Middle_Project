@@ -1,0 +1,52 @@
+@charset "UTF-8";
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	color: #3d3d3d;
+}
+
+input#userId.form-control {
+	width: 300px;
+	
+}
+input#userPw.form-control {
+	width: 300px;
+}
+input#userPw2.form-control {
+	width: 300px;
+}
+input#userNickName.form-control {
+	width: 300px;
+}
+input#year.form-control {
+	width: 100px;
+	display: inline;
+}
+select#month {
+	width: 100px;
+	height: 34px;
+	display: inline;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+input#day.form-control {
+	width: 100px;
+	display: inline;
+}
+
+input#sample6_postcode.form-control {
+	width: 200px;
+	display: inline;
+}
+
+input#sample6_address.form-control {
+	width: 250px;
+	display: inline;
+}
+
+input#sample6_extraAddress.form-control {
+	width: 250px;
+	display: inline;
+}
+input#sample6_detailAddress {
+	width: 500px;
+}

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="communityBoard">
+	<select id="getAllCommunityBoard" parameterClass="kr.or.ddit.board.vo.CommunityBoardVO" resultClass="kr.or.ddit.board.vo.CommunityBoardVO">
+			SELECT A.CB_NM     cbNm
+		        , B.PJ_NM      pjNm
+		         , A.CB_TITLE  cbTitle
+		         , A.CB_CONTENT cbContent
+		         , A.CB_DATE    cbDate
+		         , (            
+		             SELECT USER_NICKNAME 
+		             FROM   TB_USER
+		             WHERE  USER_ID = A.USER_ID
+		             )            cbWriter
+		         , A.ATCH_FILE_ID
+		FROM   COMMUNITY_BOARD A INNER JOIN PROJECT B ON(A.PJ_NM = B.PJ_NM)
+		ORDER  BY 1 DESC
+	</select>
+	
+	<select id="getPjCommunityBoard" parameterClass="String" resultClass="kr.or.ddit.board.vo.CommunityBoardVO">
+		SELECT A.CB_NM     cbNm
+		        , B.PJ_NM      pjNm
+		         , A.CB_TITLE  cbTitle
+		         , A.CB_CONTENT cbContent
+		         , A.CB_DATE    cbDate
+		         , (            
+		             SELECT USER_NICKNAME 
+		             FROM   TB_USER
+		             WHERE  USER_ID = A.USER_ID
+		             )            cbWriter
+		         , A.ATCH_FILE_ID
+		FROM   COMMUNITY_BOARD A INNER JOIN PROJECT B ON(A.PJ_NM = B.PJ_NM)
+		WHERE  B.PJ_NM = #pjNm#
+		ORDER  BY 1 DESC
+	</select>
+<!-- 		SELECT A.CB_NM     cbNm
+			, A.PJ_NM      pjNm
+			, A.CB_TITLE   cbTitle
+			, A.CB_CONTENT cbContent
+			, A.CB_DATE    cbDate
+			, (            
+			 	SELECT USER_NICKNAME 
+			 	FROM   TB_USER
+			 	WHERE  USER_ID = A.USER_ID
+			 	)            cbWriter
+			, A.ATCH_FILE_ID atchFileId
+		FROM   COMMUNITY_BOARD A INNER JOIN PROJECT B ON(A.PJ_NM = B.PJ_NM)
+		WHERE 1=1
+		AND A.CB_NM = #cbNm#
+		ORDER  BY 1 DESC -->	
+	
+	<select id="getCommunityBoard" parameterClass="String" resultClass="kr.or.ddit.board.vo.CommunityBoardVO">
+		SELECT A.CB_NM     cbNm
+			, A.PJ_NM      pjNm
+			, A.CB_TITLE   cbTitle
+			, A.CB_CONTENT cbContent
+			, A.CB_DATE    cbDate
+			, (            
+			 	SELECT USER_NICKNAME 
+			 	FROM   TB_USER
+			 	WHERE  USER_ID = A.USER_ID
+			 	)            cbWriter
+			, A.ATCH_FILE_ID atchFileId
+		FROM   COMMUNITY_BOARD A
+		WHERE 1=1
+		AND A.CB_NM = #cbNm#
+	</select>
+	
+	<insert id="insertCommunityBoard" parameterClass="kr.or.ddit.board.vo.CommunityBoardVO">
+	INSERT INTO COMMUNITY_BOARD(
+		CB_NM
+		,USER_ID
+		,PJ_NM
+		,CB_TITLE
+		,CB_CONTENT
+		,CB_DATE
+		,ATCH_FILE_ID
+	)
+	VALUES (
+		COMMUNITY_BOARD_SEQ.NEXTVAL
+		, #cbWriter#
+		, #pjNm#
+		, #cbTitle#
+		, #cbContent#
+		, SYSDATE
+		, #atchFileId#
+	)
+	</insert>
+	
+	<update id="updateCommunityBoard" parameterClass="kr.or.ddit.board.vo.CommunityBoardVO">
+		UPDATE  COMMUNITY_BOARD
+		SET	    CB_TITLE   = #cbTitle#
+			   ,CB_CONTENT = #cbContent#
+			   ,CB_DATE    = SYSDATE
+			   ,ATCH_FILE_ID = #atchFileId#            
+		WHERE   CB_NM = #cbNm#
+	</update>
+	
+	<delete id="deleteCommunityBoard" parameterClass="kr.or.ddit.board.vo.CommunityBoardVO">
+		DELETE FROM COMMUNITY_BOARD
+		WHERE  CB_NM = #cbNm#
+	</delete>
+	
+	<select id="searchCommunityBoard" parameterClass="kr.or.ddit.board.vo.CommunityBoardVO" resultClass="kr.or.ddit.board.vo.CommunityBoardVO">
+		SELECT A.CB_NM     cbNm
+			, A.PJ_NM      pjNm
+			, A.CB_TITLE   cbTitle
+			, A.CB_CONTENT cbContent
+			, A.CB_DATE    cbDate
+			, (            
+			 	SELECT B.USER_NICKNAME 
+			 	FROM   TB_USER B
+			 	WHERE  B.USER_ID = A.USER_ID
+			 	)            cbWriter
+			, A.ATCH_FILE_ID atchFileId
+		FROM   COMMUNITY_BOARD A
+		WHERE 1=1
+		AND A.PJ_NM = #pjNm#
+		AND (A.CB_TITLE LIKE '%' || #cbTitle# || '%'
+		OR (
+			SELECT B.USER_NICKNAME 
+		 	FROM   TB_USER B
+		 	WHERE  B.USER_ID = A.USER_ID		
+			) LIKE '%' || #cbWriter# || '%')
+	</select>
+
+</sqlMap>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="freeCm">
+
+<!-- 댓글 전체 출력 -->
+<select id="getAllFreeCm" resultClass="kr.or.ddit.boardComment.vo.FreeCmVO" parameterClass="kr.or.ddit.comm.vo.PagingVO">
+	SELECT B.*
+	FROM
+	(SELECT aaa.*, ROWNUM rnum
+	FROM
+	(SELECT AA.FC_NM      fcNm             
+		 , AA.FC_CONTENT fcContent        
+		 , AA.FC_DATE    fcDate           
+		 , AA.FC_TYPE    fcType           
+		 , AA.FREE_NM     freeNm          
+		 , (                            
+ 			 SELECT USER_NICKNAME       
+ 			 FROM   TB_USER             
+ 			 WHERE  USER_ID = AA.USER_ID 
+ 			) 		  fcWriter         
+	FROM (SELECT A.*
+			   , ROWNUM AS RNUM 
+		  FROM   FREE_COMMENT A) AA 
+	WHERE FREE_NM = #boardNo#
+	ORDER  BY 1 DESC) aaa) b
+	WHERE RNUM
+	BETWEEN #firstRecNo# AND #lastRecNo#
+</select>
+
+
+<select id="getAllFreeCmCount" resultClass="int" parameterClass="String">
+	SELECT COUNT(*) cnt
+	FROM   FREE_COMMENT
+	WHERE  FREE_NM = #freeNm#
+</select>
+
+<!-- 댓글 작성 -->
+<insert id="insertFreeCm" parameterClass="kr.or.ddit.boardComment.vo.FreeCmVO">
+	INSERT INTO FREE_COMMENT(
+		 FC_NM      
+	   , FC_CONTENT 
+	   , FC_DATE    
+	   , FC_TYPE    
+	   , FREE_NM     
+	   , USER_ID  
+	  ) 
+	VALUES (
+		FREE_BOARD_COMMENT_SEQ.NEXTVAL
+		, #fcContent#
+		, SYSDATE
+		, #fcType#
+		, #freeNm#
+		, #fcWriter#
+	)
+</insert>
+
+<!-- 댓글 하나만 가져오기 -->
+
+<!-- 댓글 수정 -->
+<update id="updateFreeCm" parameterClass="kr.or.ddit.boardComment.vo.FreeCmVO">
+	UPDATE FREE_COMMENT 
+	SET    FC_CONTENT = #fcContent#
+		 , FC_DATE = SYSDATE
+		 , FC_TYPE = #fcType#
+	WHERE  FC_NM = #fcNm#
+	AND    FREE_NM = #freeNm#
+</update>
+
+<!-- 댓글 삭제 -->
+<delete id="deleteFreeCm" parameterClass="kr.or.ddit.boardComment.vo.FreeCmVO">
+	DELETE FROM FREE_COMMENT
+	WHERE  FC_NM = #fcNm#
+	AND    FREE_NM = #freeNm#
+</delete>
+
+</sqlMap>

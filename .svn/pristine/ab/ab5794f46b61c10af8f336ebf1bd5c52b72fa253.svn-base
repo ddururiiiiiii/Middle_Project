@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>게시글 상세조회</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/Team_Sprout//css/main/boardWrite.css">
+<style type="text/css">
+</style>
+</head>
+<body>
+	<!-- 테이블 -->
+	<div class="container">
+		<h4><b><span>작성</span></b></h4>
+		<table class="table">
+			<thead>
+			</thead>
+			<tbody>
+				<tr>
+					<th>작성자</th>
+					<td colspan="3">작성자이다</td>
+				</tr>
+				<tr>
+					<th>제목</th>
+					<td colspan="3">
+						<input type="text" class="form-control" placeholder="제목을 입력해주세요.">
+					</td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td colspan="3"><textarea class="form-control" rows="20"
+							placeholder="내용을 입력해주세요."></textarea></td>
+				</tr>
+				<tr>
+					<th>첨부파일</th>
+					<td colspan="3">
+						<form>
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="customFile">
+							</div>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<th>첨부파일 미리보기</th>
+					<td colspan="3"><div style="width: 100px; height: 100px;"></div></td>
+				</tr>
+			</tbody>
+		</table>
+		<hr>
+		<!-- 등록 수정 삭제 버튼  -->
+		<div id="btn">
+			<button type="button" class="btn btn-success">목록</button>
+			<button type="button" class="btn btn-success">등록</button>
+		</div>	
+	</div>
+</body>
+</html>

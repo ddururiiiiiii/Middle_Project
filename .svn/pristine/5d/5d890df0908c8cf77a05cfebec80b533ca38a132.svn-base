@@ -1,0 +1,21 @@
+@charset "UTF-8";
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	color: #3d3d3d;
+	
+}
+th {
+	text-align: center;
+}
+ #head td {
+ 
+	text-align: center;
+ }
+ 
+#btn {
+	text-align: right;
+}
+
+textarea {
+	resize: none;
+}

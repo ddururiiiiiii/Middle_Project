@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	color: #3d3d3d;
+}
+
+.form-control {
+    display: inline;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+}
+input#prjName.form-control{
+	width: 600px;
+}
+
+select#prjCate.form-control{
+	width: 300px;
+}
+
+input#prjMoney.form-control{
+	width: 300px;
+}
+
+input#prjDeadLine.form-control{
+	width: 300px;
+}
+
+textarea#prjIntroText.form-control{
+	width: 100%;
+	height: 500px;
+	resize: none;
+}
+
+select#prjBank.form-control{
+	width: 300px;
+}
+
+input#prjBankUser.form-control{
+	width: 300px;
+}
+
+input#prjBankNum.form-control{
+	width: 300px;
+}
+
+input#prjOpContent.form-control{
+	width: 100%;
+}
+
+input#prjOpPrice.form-control{
+	width: 300px;
+}
+
+div#option {
+	background-color: #fafafa;
+	border: 1px solid #efefef;
+	padding: 20px;
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="projectOption">
+
+	<select id="getAllProjectOption" parameterClass="kr.or.ddit.project.vo.ProjectOptionVO" resultClass="kr.or.ddit.project.vo.ProjectOptionVO">
+		SELECT  PO_NM          poNm
+				,PO_NAME       poName
+				,PO_CONTENT    poContent
+				,PO_ADD_PRICE  poAddPrice
+				,PJ_NM         pjNm
+				,ATCH_FILE_ID  atchFileId
+		FROM  PROJECT_OPTION
+		ORDER BY 1 DESC				
+	</select>
+
+	<select id="getProjectOption" parameterClass="kr.or.ddit.project.vo.ProjectOptionVO" resultClass="kr.or.ddit.project.vo.ProjectOptionVO">
+		SELECT  PO_NM          poNm      
+				,PO_NAME       poName    
+				,PO_CONTENT    poContent 
+				,PO_ADD_PRICE  poAddPrice
+				,PJ_NM         pjNm 
+				,ATCH_FILE_ID  atchFileId     
+		FROM  PROJECT_OPTION	
+		WHERE  1=1
+		AND    PJ_NM = #pjNm#
+	</select>
+	
+	<insert id="insertProjectOption" parameterClass="kr.or.ddit.project.vo.ProjectOptionVO">
+	    INSERT INTO PROJECT_OPTION(
+	    	PO_NM
+			,PO_NAME
+			,PO_CONTENT
+			,PO_ADD_PRICE
+			,PJ_NM
+			,ATCH_FILE_ID
+	    ) VALUES (
+		    PROJECT_OPTION_SEQ.NEXTVAL
+	    	,#poName#
+	    	,#poContent#
+	    	,#poAddPrice#
+	    	,#pjNm#
+	    	,#atchFileId#
+	    )
+	</insert>
+	                                                             
+</sqlMap>

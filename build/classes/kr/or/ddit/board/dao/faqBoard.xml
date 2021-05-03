@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="faqBoard">
+
+<!-- 전체 조회 -->
+<select id="getAllFaqBoard" parameterClass="kr.or.ddit.comm.vo.PagingVO" resultClass="kr.or.ddit.board.vo.FaqBoardVO">
+	SELECT B.*
+	FROM  (
+		SELECT AAA.*, ROWNUM RNUM
+		FROM (
+			SELECT AA.FAQ_NM      faqNm
+				 , AA.FAQ_TITLE   faqTitle
+				 , AA.FAQ_CONTENT faqContent
+				 , TO_CHAR(AA.FAQ_DATE, 'YYYY-MM-DD')    faqDate
+				 ,(
+				 	SELECT USER_NICKNAME
+				 	FROM   TB_USER
+				 	WHERE  USER_ID = AA.USER_ID
+				 )   faqWriter
+				 , ATCH_FILE_ID atchFileId
+			FROM (
+				 SELECT A.*
+					 , ROWNUM rNum
+				 FROM   FAQ_BOARD A
+				 ) AA
+			WHERE AA.FAQ_STATE = 'Y'
+			ORDER BY 1 DESC
+			) AAA
+		) B
+	WHERE RNUM
+	BETWEEN #firstRecNo# AND #lastRecNo#
+</select>
+
+<select id="getAllFaqBoardListCount" resultClass="int">
+	SELECT COUNT(*) cnt
+	FROM   FAQ_BOARD
+	WHERE  FAQ_STATE = 'Y'
+</select>
+
+<select id="getFaqBoard" parameterClass="String" resultClass="kr.or.ddit.board.vo.FaqBoardVO">
+	SELECT A.FAQ_NM       faqNm
+		, A.FAQ_TITLE     faqTitle
+		, A.FAQ_CONTENT   faqContent
+		, A.FAQ_DATE      faqDate
+		,(
+		   SELECT USER_NICKNAME       
+		   FROM   TB_USER             
+		   WHERE  USER_ID = A.USER_ID 
+		   )             faqWriter      
+		, A.ATCH_FILE_ID  atchFileId
+	FROM FAQ_BOARD A
+	WHERE 1=1
+	AND A.FAQ_NM = #faqNm#	
+	AND A.FAQ_STATE = 'Y'
+</select>
+
+<insert id="insertFaqBoard" parameterClass="kr.or.ddit.board.vo.FaqBoardVO">
+	INSERT INTO FAQ_BOARD (
+	 FAQ_NM
+	,FAQ_TITLE
+	,FAQ_CONTENT
+	,FAQ_DATE
+	,USER_ID
+	,ATCH_FILE_ID
+	,FAQ_STATE
+	)
+	VALUES (
+	FAQ_BOARD_SEQ.NEXTVAL
+	, #faqTitle#
+	, #faqContent#
+	, SYSDATE
+	, #faqWriter#
+	, #atchFileId#
+	, 'Y'
+	) 
+</insert>
+
+<update id="updateFaqBoard" parameterClass="kr.or.ddit.board.vo.FaqBoardVO">
+		UPDATE  FAQ_BOARD
+		SET	    FAQ_TITLE   = #faqTitle#
+			   ,FAQ_CONTENT = #faqContent#
+			   ,FAQ_DATE    = SYSDATE
+			   ,ATCH_FILE_ID = #atchFileId#            
+		WHERE   FAQ_NM = #faqNm#
+
+</update>
+
+<delete id="deleteFaqBoard" parameterClass="kr.or.ddit.board.vo.FaqBoardVO">
+	UPDATE FAQ_BOARD
+	SET    FAQ_STATE = 'N'
+	WHERE  FAQ_NM = #faqNm#
+</delete>
+
+<select id="searchFaqBoard" parameterClass="String" resultClass="kr.or.ddit.board.vo.FaqBoardVO">
+	SELECT A.FAQ_NM       faqNm
+		, A.FAQ_TITLE     faqTitle
+		, A.FAQ_CONTENT   faqContent
+		, A.FAQ_DATE      faqDate
+		, (
+		 	SELECT B.USER_NICKNAME 
+		 	FROM   TB_USER B
+		 	WHERE  B.USER_ID = A.USER_ID
+		 	)       faqWriter   
+		, A.ATCH_FILE_ID atchFileId    
+	FROM  FAQ_BOARD A
+	WHERE 1=1
+	AND   FAQ_STATE = 'Y'
+	AND   FAQ_TITLE LIKE '%' || #faqTitle# || '%'
+	OR    (
+			SELECT B.USER_NICKNAME
+			FROM   TB_USER B
+			WHERE  B.USER_ID = A.USER_ID
+			) LIKE '%' || #faqWriter# || '%'
+</select>
+
+</sqlMap>

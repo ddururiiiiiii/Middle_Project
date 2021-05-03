@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>게시판</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/Team_Sprout/css/main/prjDona.css">
+</head>
+
+<body>
+	<!-- 상단 전체   -->
+	<div class="col-sm-12">
+		<!-- 왼쪽 공백 2 -->
+		<div class="col-sm-2"></div>
+
+		<!-- 후원하기 메인 -->
+		<div class="col-sm-8">
+			<!-- 후원 프로젝트 정보 -->
+			<br>
+			<h3>프로젝트 정보</h3>
+			<div id="divReult">
+				<h4>후원할 프로젝트</h4>
+				<p>잃어버린 상상력을 찾아, 코끼리를 삼킨 보아뱀 은반지</p>
+				<br>
+				<h4>후원 금액</h4>
+				<p>20,000원 후원</p>
+				<br>
+				<h4>선택할 옵션</h4>
+				<select class="selectpicker" data-style="btn-success">
+					<option>옵션을 선택해주세요.</option>
+					<option>옵션1. 10,000원</option>
+					<option>옵션2. 20,000원</option>
+					<option>옵션3. 30,000원</option>
+				</select>
+			</div>
+
+			<!-- 후원 입력 정보 -->
+			<div>
+				<br>
+				<h3>배송지 정보</h3>
+				<form action="">
+					<div class="form-group">
+						<label for="">배송지</label> <input type="text" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="">받는사람</label> <input type="text" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="">연락처</label> <input type="text" class="form-control">
+					</div>
+				</form>
+				<div id="btn">
+					<button type="button" class="btn btn-success">후원하기</button>
+				</div>
+			</div>
+
+		</div>
+
+
+		<!-- 오른쪽 공백 2 -->
+		<div class="col-sm-2"></div>
+	</div>
+</body>
+</html>

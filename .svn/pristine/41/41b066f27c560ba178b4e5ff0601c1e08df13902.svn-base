@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Swiper demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+  <!-- Demo styles -->
+  <style>
+    html,
+    body {
+      position: relative;
+      height: 400px;
+    }
+
+    body {
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;w
+      margin: 0;
+      padding: 0;
+    }
+
+    .swiper-container {
+      width: 100%;
+      height: 400px;
+
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+    #swiper1 {
+	text-align: center;
+	background-image: url('/Team_Sprout/images/main_image.png');
+	width: 100%;
+	height: 100%;
+	color: white;
+}
+    #swiper2 {
+	text-align: center;
+	background-image: url('/Team_Sprout/images/main_image4.jpg');
+	width: 100%;
+	height: 100%;
+	color: white;
+}
+    #swiper3 {
+	text-align: center;
+	background-image: url('/Team_Sprout/images/main_image3.jpg');
+	width: 100%;
+	height: 100%;
+	color: white;
+}
+  </style>
+</head>
+
+<body>
+  <!-- Swiper -->
+  <div class="swiper-container">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide">
+				<div id="swiper1">
+					<br>
+					<br>
+					<br>
+					<br>
+					<p><h2>개인부터 스타트업 까지!</h2></p>
+					<p><h3>미래를 자라나게 하는 가장 손쉬운 방법, 스프라우트<br>
+					당신의 펀딩을 응원합니다.</h3></p>
+				</div>
+			</div>
+			<div class="swiper-slide">
+				<div id="swiper2">
+					<br>
+					<br>
+					<br>
+					<br>
+					<p><h2>성공을 돕는 리소스</h2></p>
+					<p><h3>프로젝트 가이드에는<br>
+					각 단계별 성공을 위한 꼼꼼한 도움말이 준비되어 있습니다.</h3></p>
+				</div>
+			</div>
+			<div class="swiper-slide">
+				<div id="swiper3">
+					<br>
+					<br>
+					<br>
+					<br>
+					<p><h2>확산이 빠른 커뮤니티</h2></p>
+					<p><h3>데이터에 기초해 스마트한 홍보와 진행을 할 수 있도록<br>
+					 노하우를 지원해 드리겠습니다.</h3></p>
+				</div>
+			</div>
+		</div>
+		<!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper('.swiper-container', {
+      spaceBetween: 30,
+      centeredSlides: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  </script>
+</body>
+
+</html>

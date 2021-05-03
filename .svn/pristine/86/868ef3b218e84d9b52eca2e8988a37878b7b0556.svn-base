@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="user">
+	<!-- ID 중복검사 -->
+	<select id="chkUserId" parameterClass="String" resultClass="int">
+		SELECT COUNT(*) cnt
+		FROM   TB_USER
+		WHERE  USER_ID = #userId#
+	</select>
+
+	<!-- 회원 가입 -->
+	<insert id="signUpUser" parameterClass="kr.or.ddit.user.vo.UserVO">
+		INSERT INTO TB_USER(
+			USER_ID
+		  , USER_NAME
+		  , USER_PW
+		  , USER_NICKNAME
+		  , USER_GENDER
+		  , USER_BIR
+		  , USER_TEL
+		  , USER_EMAIL
+		  , LIKEY_CODE
+		  , USER_ZIP
+		  , USER_ADD1
+		  , USER_ADD2
+		  , USER_MONEY
+		  , ADMIN_CK
+		)
+		VALUES (
+			#userId#
+		  , #userName#
+		  , #userPw#
+		  , #userNickName#
+		  , #userGender#
+		  , #userBir#
+		  , #userTel#
+		  , #userEmail#
+		  , #likeyCode#
+		  , #userZip#
+		  , #userAdd1#
+		  , #userAdd2#
+		  , 0
+		  , 'N'
+		)
+	</insert>
+	
+	<!-- 유저목록 전체 -->
+	<select id="getUserList" resultClass="kr.or.ddit.user.vo.UserVO">
+		SELECT USER_ID       userId
+			 , USER_NAME     userName
+			 , USER_PW       userPw
+			 , USER_NICKNAME userNickName
+			 , USER_GENDER   userGender
+			 , USER_BIR      userBir
+			 , USER_TEL      userTel
+			 , USER_EMAIL    userEmail
+			 , LIKEY_CODE    likeyCode
+			 , USER_ZIP      userZip
+			 , USER_ADD1     userAdd1
+			 , USER_ADD2     userAdd2
+			 , USER_MONEY    userMoney
+			 , ADMIN_CK      adminCk
+		FROM   TB_USER
+	</select>
+	
+	<!-- 유저 한명 검색 -->	
+	<select id="getUser" parameterClass="String" resultClass="kr.or.ddit.user.vo.UserVO">
+		SELECT USER_ID       userId
+			 , USER_NAME     userName
+			 , USER_PW       userPw
+			 , USER_NICKNAME userNickName
+			 , USER_GENDER   userGender
+			 , USER_BIR      userBir
+			 , USER_TEL      userTel
+			 , USER_EMAIL    userEmail
+			 , LIKEY_CODE    likeyCode
+			 , USER_ZIP      userZip
+			 , USER_ADD1     userAdd1
+			 , USER_ADD2     userAdd2
+			 , USER_MONEY    userMoney
+			 , ADMIN_CK      adminCk
+		FROM   TB_USER
+		WHERE  USER_ID = #userId#
+	</select>
+	
+	<!-- 로그인 할때  -->
+	<select id="signInUser" parameterClass="kr.or.ddit.user.vo.UserVO" resultClass="int">
+		SELECT COUNT(*) cnt
+		FROM   TB_USER
+		WHERE  USER_ID = #userId#
+		AND    USER_PW = #userPw#
+	</select>
+	
+	<!-- 유저 찾기 -->
+	<select id="findUser" parameterClass="kr.or.ddit.user.vo.UserVO" resultClass="kr.or.ddit.user.vo.UserVO">
+		SELECT USER_ID       userId
+			 , USER_NAME     userName
+			 , USER_PW       userPw
+			 , USER_NICKNAME userNickName
+			 , USER_GENDER   userGender
+			 , USER_BIR      userBir
+			 , USER_TEL      userTel
+			 , USER_EMAIL    userEmail
+			 , LIKEY_CODE    likeyCode
+			 , USER_ZIP      userZip
+			 , USER_ADD1     userAdd1
+			 , USER_ADD2     userAdd2
+			 , USER_MONEY    userMoney
+			 , ADMIN_CK      adminCk
+		FROM   TB_USER
+		WHERE  1=1
+		AND    USER_ID = #userId#
+		OR     USER_NICKNAME = #userNickName#
+	</select>
+	
+	<!-- 닉네임 같은지 조회 -->
+	<select id="chkNickName" parameterClass="String" resultClass="int">
+		SELECT COUNT(*) cnt
+		FROM   TB_USER
+		WHERE  USER_NICKNAME = #userNickName#
+	</select>
+		
+	<!-- 개인정보 변경 -->	
+	<update id="updateUser" parameterClass="kr.or.ddit.user.vo.UserVO">
+		UPDATE TB_USER
+		SET	   USER_ID       = #userId#       
+			 , USER_NAME     = #userName#     
+			 , USER_PW       = #userPw#       
+			 , USER_NICKNAME = #userNickName# 
+			 , USER_GENDER   = #userGender#   
+			 , USER_BIR      = #userBir#      
+			 , USER_TEL      = #userTel#      
+			 , USER_EMAIL    = #userEmail#    
+			 , LIKEY_CODE    = #likeyCode#    
+			 , USER_ZIP      = #userZip#      
+			 , USER_ADD1     = #userAdd1#     
+			 , USER_ADD2     = #userAdd2#     
+			 , USER_MONEY    = #userMoney#          
+		WHERE  USER_ID = #userId#
+	</update>
+	
+	<!-- 아이디 찾기 -->
+	<select id="findUserId" parameterClass="kr.or.ddit.user.vo.UserVO" resultClass="String">
+		SELECT USER_ID userId
+		FROM   TB_USER
+		WHERE  USER_NAME = #userName#
+		AND    USER_TEL = #userTel#
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="findUserPw" parameterClass="kr.or.ddit.user.vo.UserVO" resultClass="String">
+		SELECT USER_PW userPw
+		FROM   TB_USER
+		WHERE  USER_ID = #userId#
+	</select>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteUser" parameterClass="kr.or.ddit.user.vo.UserVO">
+		DELETE FROM TB_USER
+		WHERE  USER_ID = #userId#
+	</delete>
+	
+	<!-- 유저의 후원 목록 -->
+	<select id="userOrderList" resultClass="kr.or.ddit.user.vo.OrderVO" parameterClass="String">
+		SELECT A.ORDER_NM 
+			 , A.ORDER_BILL 
+			 , A.ORDER_STATE 
+			 , A.PJ_NM 
+             , B.PJ_NAME
+             , B.PJ_CONTENT
+             , B.PJ_CONDITION
+             , C.PO_NAME
+			 , A.USER_ID 
+			 , A.ORDER_TIME 
+			 , A.ORDER_PRICE 	
+		FROM   TB_ORDER A INNER JOIN PROJECT B ON(A.PJ_NM = B.PJ_NM)
+                          INNER JOIN PROJECT_OPTION C ON(B.PJ_NM = C.PJ_NM)
+		WHERE  A.PJ_NM = (SELECT PJ_NM
+						  FROM TB_USER
+						  WHERE USER_ID = #userId#	
+						)
+	</select>
+	
+	<!-- 유저 포인트 조회 -->
+	<select id="userpoint" parameterClass="kr.or.ddit.user.vo.UserVO" resultClass="String">
+		SELECT USER_MONEY userMoney
+		FROM TB_USER
+		WHERE  USER_ID = #userId#
+	</select>
+	
+	<!-- 유저 포인트 충전 -->
+	<update id="userpointUpdate" parameterClass="kr.or.ddit.user.vo.UserVO">
+		UPDATE TB_USER
+		SET USER_MONEY = USER_MONEY + #userMoney#
+		WHERE USER_ID = #userId#
+	</update>
+
+	<!-- 유저 포인트 환불 -->
+	<update id="userpointUpdateRefund" parameterClass="kr.or.ddit.user.vo.UserVO">
+		UPDATE TB_USER
+		SET USER_MONEY = USER_MONEY - #userMoney#
+		WHERE USER_ID = #userId#
+	</update>
+	
+	<!-- 유저가 만든 프로젝트 리스트 -->
+	<select id="userSelfMadeProjectList" parameterClass="String" resultClass="kr.or.ddit.project.vo.ProjectVO">
+		SELECT PJ_NM           pjNm
+			 , PJ_TYPE         pjType
+			 , PJ_NAME         pjName
+			 , PJ_CONTENT      pjContent
+			 , PJ_PRICE_AMOUNT pjPriceAmount 
+			 , PJ_CONDITION    pjCondition
+			 , TO_CHAR(TO_DATE(PJ_DDAY), 'YYYYMMDD') pjDday
+			 , TO_CHAR(TO_DATE(PJ_OPENDAY), 'YYYYMMDD') pjOpenday
+			 , PJ_REWARD       pjReward
+			 , USER_ID         userId
+			 , ATCH_FILE_ID    atchFileId
+			 , PJ_CATEGORY     pjCategory
+			 , PJ_ACNTBANK     pjAcntbank
+			 , PJ_ACNTNUM      pjAcntnum
+			 , PJ_ACNTHOLDER   pjAcntholder
+			 , TO_DATE(PJ_DDAY) - TRUNC(SYSDATE) pjExpDate
+			 , NVL(ROUND((PJ_PRICE / PJ_PRICE_AMOUNT) * 100, 0), 0) pjPricePer
+		FROM   PROJECT
+		WHERE  USER_ID = #userId#
+	</select>
+	
+</sqlMap>

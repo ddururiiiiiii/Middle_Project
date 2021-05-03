@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="project">
+<!-- 프로젝트 수정은 불가능합니다 -->
+
+	<select id="getAllProject" parameterClass="kr.or.ddit.project.vo.ProjectVO" resultClass="kr.or.ddit.project.vo.ProjectVO">
+		SELECT   A.PJ_NM            pjNm
+				,A.PJ_TYPE          pjType
+				,A.PJ_NAME          pjName
+				,A.PJ_CONTENT       pjContent
+				,A.PJ_PRICE_AMOUNT  pjPriceAmount
+				,A.PJ_CONDITION     pjCondition
+				,TO_CHAR(A.PJ_DDAY, 'YYYY-MM-DD')          pjDday
+				,A.PJ_OPENDAY       pjOpenday
+				,A.PJ_REWARD        pjReward
+				,(
+				 	SELECT USER_NICKNAME 
+				 	FROM   TB_USER
+				 	WHERE  USER_ID = A.USER_ID
+			 	)                   pjWriter
+				,NVL(ATCH_FILE_ID, 0)       atchFileId
+				,A.PJ_CATEGORY      pjCategory
+				,A.PJ_ACNTBANK      pjAcntBank
+				,A.PJ_ACNTNUM       pjAcntNum
+				,A.PJ_ACNTHOLDER    pjAcntHolder
+				,TO_DATE(PJ_DDAY) - TRUNC(SYSDATE) pjExpDate
+				,NVL(ROUND((PJ_PRICE / PJ_PRICE_AMOUNT) * 100, 0), 0) pjPricePer
+		FROM  PROJECT A	
+		ORDER BY 1 DESC	
+	</select>
+	
+		<select id="getAllProjectPass" parameterClass="kr.or.ddit.project.vo.ProjectVO" resultClass="kr.or.ddit.project.vo.ProjectVO">
+		SELECT   A.PJ_NM            pjNm
+				,A.PJ_TYPE          pjType
+				,A.PJ_NAME          pjName
+				,A.PJ_CONTENT       pjContent
+				,A.PJ_PRICE_AMOUNT  pjPriceAmount
+				,A.PJ_CONDITION     pjCondition
+				,TO_CHAR(A.PJ_DDAY, 'YYYY-MM-DD')          pjDday
+				,A.PJ_OPENDAY       pjOpenday
+				,A.PJ_REWARD        pjReward
+				,(
+				 	SELECT USER_NICKNAME 
+				 	FROM   TB_USER
+				 	WHERE  USER_ID = A.USER_ID
+			 	)                   pjWriter
+				,NVL(ATCH_FILE_ID, 0)       atchFileId
+				,A.PJ_CATEGORY      pjCategory
+				,A.PJ_ACNTBANK      pjAcntBank
+				,A.PJ_ACNTNUM       pjAcntNum
+				,A.PJ_ACNTHOLDER    pjAcntHolder
+		FROM  PROJECT A	
+		WHERE PJ_CONDITION = '통과'	
+	</select>
+
+	<select id="getProject" parameterClass="long" resultClass="kr.or.ddit.project.vo.ProjectVO">
+		SELECT   A.PJ_NM            pjNm
+				,A.PJ_TYPE          pjType
+				,A.PJ_NAME          pjName
+				,A.PJ_CONTENT       pjContent
+				,A.PJ_PRICE_AMOUNT  pjPriceAmount
+				,A.PJ_CONDITION     pjCondition
+				,TO_CHAR(A.PJ_DDAY, 'YYYY-MM-DD') pjDday
+				,A.PJ_OPENDAY       pjOpenday
+				,A.PJ_REWARD        pjReward
+				,(
+				 	SELECT USER_NICKNAME 
+				 	FROM   TB_USER
+				 	WHERE  USER_ID = A.USER_ID
+			 	)                   pjWriter
+				,NVL(ATCH_FILE_ID, 0)       atchFileId
+				,A.PJ_CATEGORY      pjCategory
+				,A.PJ_ACNTBANK      pjAcntBank
+				,A.PJ_ACNTNUM       pjAcntNum
+				,A.PJ_ACNTHOLDER    pjAcntHolder
+				,TO_DATE(PJ_DDAY) - TRUNC(SYSDATE) pjExpDate
+				,NVL(ROUND((PJ_PRICE / PJ_PRICE_AMOUNT) * 100, 0), 0) pjPricePer
+				,NVL(A.PJ_PRICE, 0) pjPrice
+				,NVL(A.PJ_FAN, 0)   pjFan
+		FROM  PROJECT A		
+		WHERE  1=1
+		AND    A.PJ_NM = #pjNm#
+	</select>
+	
+	<insert id="insertProject" parameterClass="kr.or.ddit.project.vo.ProjectVO">
+		<selectKey keyProperty="pjNm" resultClass="Long">
+		SELECT PROJECT_SEQ.NEXTVAL AS pjNm FROM DUAL
+		</selectKey>
+	    INSERT INTO PROJECT(
+	        PJ_NM
+	        , PJ_TYPE
+	        , PJ_NAME
+	        , PJ_CONTENT
+	        , PJ_PRICE_AMOUNT
+	        , PJ_CONDITION
+	        , PJ_DDAY
+	        , PJ_OPENDAY
+	        , PJ_REWARD
+	        , USER_ID
+	        , ATCH_FILE_ID
+	        , PJ_CATEGORY
+	        , PJ_ACNTBANK
+	        , PJ_ACNTNUM
+	        , PJ_ACNTHOLDER 
+	        , PJ_PRICE  
+	        , PJ_FAN    
+	        ) 
+	    VALUES (
+	        #pjNm# 
+	        , #pjType#          
+	        , #pjName#          
+	        , #pjContent#       
+	        , #pjPriceAmount#   
+	        , '심사중'     
+	        , #pjDday#          
+	        , SYSDATE       
+	        , #pjReward#
+	        , #userId#
+	        , #atchFileId#   
+	        , #pjCategory#
+	        , #pjAcntBank#
+	        , #pjAcntNum#
+	        , #pjAcntHolder#    
+	        , 0
+	        , 0 
+	    )
+	</insert>
+	
+	<delete id="deleteProject" parameterClass="kr.or.ddit.project.vo.ProjectVO">
+		DELETE FROM PROJECT
+		WHERE  PJ_NM = #pjNm#
+	</delete>
+	
+	<select id="searchProject" parameterClass="String" resultClass="kr.or.ddit.project.vo.ProjectVO">
+		SELECT   A.PJ_NM            pjNm
+				,A.PJ_TYPE          pjType
+				,A.PJ_NAME          pjName
+				,A.PJ_CONTENT       pjContent
+				,A.PJ_PRICE_AMOUNT  pjPriceAmount
+				,A.PJ_CONDITION     pjCondition
+				,TO_CHAR(A.PJ_DDAY, 'YYYY-MM-DD')          pjDday
+				,A.PJ_OPENDAY       pjOpenday
+				,A.PJ_REWARD        pjReward
+				,b.user_nickname    pjWriter
+				,A.ATCH_FILE_ID     atchFileId
+				,A.PJ_CATEGORY      pjCategory
+				,A.PJ_ACNTBANK      pjAcntBank
+				,A.PJ_ACNTNUM       pjAcntNum
+				,A.PJ_ACNTHOLDER    pjAcntHolder
+				,TO_DATE(PJ_DDAY) - TRUNC(SYSDATE) pjExpDate
+				,NVL(ROUND((PJ_PRICE / PJ_PRICE_AMOUNT) * 100, 0), 0) pjPricePer
+		FROM   PROJECT A INNER JOIN TB_USER B ON(A.USER_ID = B.USER_ID)
+        WHERE 1=1
+		AND     A.PJ_NAME LIKE '%' || #pjName# || '%'  
+		ORDER BY 1 DESC	
+	
+	</select>
+	
+	<select id="searchProjectSelect" parameterClass="String" resultClass="kr.or.ddit.project.vo.ProjectVO">
+		SELECT   A.PJ_NM            pjNm
+				,A.PJ_TYPE          pjType
+				,A.PJ_NAME          pjName
+				,A.PJ_CONTENT       pjContent
+				,A.PJ_PRICE_AMOUNT  pjPriceAmount
+				,A.PJ_CONDITION     pjCondition
+				,TO_CHAR(A.PJ_DDAY, 'YYYY-MM-DD')          pjDday
+				,A.PJ_OPENDAY       pjOpenday
+				,A.PJ_REWARD        pjReward
+				,b.user_nickname    pjWriter
+				,A.ATCH_FILE_ID     atchFileId
+				,A.PJ_CATEGORY      pjCategory
+				,A.PJ_ACNTBANK      pjAcntBank
+				,A.PJ_ACNTNUM       pjAcntNum
+				,A.PJ_ACNTHOLDER    pjAcntHolder
+				,TO_DATE(PJ_DDAY) - TRUNC(SYSDATE) pjExpDate
+				,NVL(ROUND((PJ_PRICE / PJ_PRICE_AMOUNT) * 100, 0), 0) pjPricePer
+		FROM   PROJECT A INNER JOIN TB_USER B ON(A.USER_ID = B.USER_ID)
+        WHERE 1=1
+		AND     A.PJ_CATEGORY = #pjCategory#  
+		ORDER BY 1 DESC	
+	
+	</select>                    
+
+	<update id="getDonation" parameterClass="kr.or.ddit.project.vo.ProjectVO">
+		UPDATE PROJECT
+		SET    PJ_PRICE = PJ_PRICE + #pjPrice#
+			 , PJ_FAN = PJ_FAN + 1
+		WHERE  PJ_NM = #pjNm#
+	</update>
+
+	<select id="getProjectAllCount" resultClass="int">
+		SELECT COUNT(*)
+		FROM PROJECT
+	</select>	                                                             
+</sqlMap>

@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	color: #3d3d3d;
+	
+}
+select[multiple], select[size] {
+    width: 300px;
+    height: 300px;
+    
+}
+
+.form-control {
+	width: 250px;
+	display: inline;
+	
+}
+	

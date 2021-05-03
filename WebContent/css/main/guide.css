@@ -1,0 +1,16 @@
+@charset "UTF-8";
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	color: #3d3d3d;
+}
+
+.panel-default>.panel-heading {
+    background-color: #40a75f;
+    border-color: #ddd;
+}
+.panel-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 16px;
+    color: white;
+}

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+   PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+   "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="qnaCm">
+
+<!-- 댓글 전체 출력 -->
+<select id="getAllQnaCm" resultClass="kr.or.ddit.boardComment.vo.QnaCmVO" parameterClass="String">
+	SELECT A.QC_NM      qcNm
+		 , A.QC_CONTENT qcContent
+		 , A.QC_DATE    qcDate
+		 , A.QC_TYPE    qcType
+		 , A.QNA_NM     qnaNm
+         , B.USER_NICKNAME  qcWriter
+	FROM   QNA_COMMENT A INNER JOIN TB_USER B
+					     ON(A.USER_ID = B.USER_ID)
+	WHERE  A.QNA_NM = #qnaNm#
+	ORDER  BY 1 DESC
+</select>
+
+<!-- 댓글 작성 -->
+<insert id="insertQnaCm" parameterClass="kr.or.ddit.boardComment.vo.QnaCmVO">
+	INSERT INTO QNA_COMMENT(
+		 QC_NM      
+	   , QC_CONTENT 
+	   , QC_DATE    
+	   , QC_TYPE    
+	   , QNA_NM     
+	   , USER_ID
+	)
+	VALUES (
+		QNA_BOARD_COMMENT_SEQ.NEXTVAL
+	   , #qcContent#
+	   , SYSDATE
+	   , 'N'
+	   , #qnaNm#
+	   , #qcWriter#
+	)
+</insert>
+
+<!-- 댓글 하나만 가져오기 -->
+<select id="getQnaCm" parameterClass="kr.or.ddit.boardComment.vo.QnaCmVO" resultClass="kr.or.ddit.boardComment.vo.QnaCmVO">
+	SELECT A.QC_NM      qcNm
+		 , A.QC_CONTENT qcContent
+		 , A.QC_DATE    qcDate
+		 , A.QC_TYPE    qcType
+		 , A.QNA_NM     qnaNm
+         , B.USER_NICKNAME  qcWriter
+	FROM   QNA_COMMENT A, TB_USER B
+	WHERE  A.QNA_NM = #qnaNm#
+	AND    A.QC_NM = #qcNm#
+    AND    A.USER_ID = B.USER_ID
+</select>
+
+<!-- 댓글 수정 -->
+<update id="updateQnaCm" parameterClass="kr.or.ddit.boardComment.vo.QnaCmVO">
+	UPDATE QNA_COMMENT 
+	SET    QC_CONTENT = #qcContent#
+		 , QC_DATE = SYSDATE
+		 , QC_TYPE = #qcType#
+	WHERE  QC_NM = #qcNm#
+	AND    QNA_NM = #qnaNm#
+</update>
+
+<!-- 댓글 삭제 -->
+<delete id="deleteQnaCm" parameterClass="kr.or.ddit.boardComment.vo.QnaCmVO">
+	DELETE FROM QNA_COMMENT
+	WHERE  QC_NM = #qcNm#
+	AND    QNA_NM = #qnaNm#
+</delete>
+
+</sqlMap>

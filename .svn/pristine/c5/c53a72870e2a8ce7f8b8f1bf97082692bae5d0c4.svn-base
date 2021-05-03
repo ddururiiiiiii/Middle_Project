@@ -1,0 +1,46 @@
+@charset "UTF-8";
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	color: #3d3d3d;
+	
+}
+p {
+	padding: 0px;
+	margin: 0px;
+	
+}
+#thumImage {
+	width: 100%;
+}
+
+div {
+	padding: 10px;
+}
+
+#payBtn { 
+	width: 100%;
+}
+
+h2 {
+	font-weight: bolder;
+	text-align: center;
+}
+#spanCategory {
+	background-color: #fafafa;
+	border: 1px solid #efefef;
+	text-align: center;
+	padding: 10px;
+	color: #757575;
+}
+#divCategory {
+	text-align: center;
+	padding: 10px;
+}
+#divOption {
+	background-color: #fafafa;
+	border: 1px solid #efefef;
+	text-align: center;
+	padding: 10px;
+}
+
+

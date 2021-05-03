@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="qnaBoard">
+
+	<select id="getAllQnaBoard" parameterClass="kr.or.ddit.comm.vo.PagingVO" resultClass="kr.or.ddit.board.vo.QnaBoardVO">
+<!-- 		SELECT A.QNA_NM       qnaNm -->
+<!-- 			 , A.QNA_TITLE    qnaTitle -->
+<!-- 			 , A.QNA_CONTENT  qnaContent -->
+<!-- 			 , A.QNA_DATE     qnaDate -->
+<!-- 			 , ( -->
+<!-- 			 	SELECT USER_NICKNAME  -->
+<!-- 			 	FROM   TB_USER -->
+<!-- 			 	WHERE  USER_ID = A.USER_ID -->
+<!-- 			 	)            qnaWriter -->
+<!-- 			 , ATCH_FILE_ID atchFileId -->
+<!-- 		FROM   QNA_BOARD A -->
+<!-- 		ORDER  BY 1 DESC	 -->
+		SELECT B.*
+		FROM 
+			(SELECT AAA.*, ROWNUM RNUM
+			FROM(
+					SELECT AA.QNA_NM       qnaNm
+			 			 , AA.QNA_TITLE    qnaTitle
+			 			 , AA.QNA_CONTENT  qnaContent
+			 			 , TO_CHAR(AA.QNA_DATE, 'YYYY-MM-DD')     qnaDate
+			 			 , (
+			 				SELECT USER_NICKNAME 
+			 				FROM   TB_USER
+			 				WHERE  USER_ID = AA.USER_ID
+			 				)            qnaWriter
+						 , AA.ATCH_FILE_ID atchFileId
+					FROM   (SELECT A.*
+								 , ROWNUM AS RNUM
+							FROM   QNA_BOARD A) AA
+					WHERE  AA.QNA_STATE = 'Y'
+					ORDER  BY 1 DESC) AAA
+				) B
+		WHERE RNUM
+		BETWEEN #firstRecNo# AND #lastRecNo#
+	</select>
+	
+	<!-- 모든 게시글의 갯수 -->
+	<select id="getAllQnaBoardListCount" resultClass="int">
+		SELECT COUNT(*) cnt
+		FROM   QNA_BOARD
+		WHERE  QNA_STATE = 'Y'
+	</select>
+	
+	<select id="getQnaBoard" parameterClass="String" resultClass="kr.or.ddit.board.vo.QnaBoardVO">
+		SELECT A.QNA_NM      qnaNm
+			 , A.QNA_TITLE   qnaTitle
+			 , A.QNA_CONTENT qnaContent
+			 , A.QNA_DATE    qnaDate
+			 , (
+			 	SELECT USER_NICKNAME 
+			 	FROM   TB_USER
+			 	WHERE  USER_ID = A.USER_ID
+			 	)			  qnaWriter 
+			 , A.ATCH_FILE_ID atchFileId
+		FROM   QNA_BOARD A			
+		WHERE  1=1
+		AND    A.QNA_NM = #qnaNm#
+		AND    A.QNA_STATE = 'Y'
+	</select>
+	
+	<insert id="insertQnaBoard" parameterClass="kr.or.ddit.board.vo.QnaBoardVO">
+		INSERT INTO QNA_BOARD(
+			 QNA_NM
+			,QNA_TITLE
+			,QNA_CONTENT
+			,QNA_DATE
+			,USER_ID
+			,ATCH_FILE_ID 
+			,QNA_STATE
+		)
+		VALUES (
+			QNA_BOARD_SEQ.NEXTVAL
+		  , #qnaTitle#
+		  , #qnaContent#
+		  , SYSDATE
+		  , #qnaWriter#
+		  , #atchFileId#
+		  , 'Y'
+		)
+	</insert>
+	
+	<update id="updateQnaBoard" parameterClass="kr.or.ddit.board.vo.QnaBoardVO">
+		UPDATE  QNA_BOARD
+		SET	    QNA_TITLE   = #qnaTitle#
+			   ,QNA_CONTENT = #qnaContent#
+			   ,QNA_DATE    = SYSDATE
+			   ,ATCH_FILE_ID = #atchFileId#            
+		WHERE   QNA_NM = #qnaNm#
+	</update>
+	
+	<delete id="deleteQnaBoard" parameterClass="kr.or.ddit.board.vo.QnaBoardVO">
+		UPDATE QNA_BOARD
+		SET    QNA_STATE = 'N'
+		WHERE  QNA_NM = #qnaNm#
+	</delete>
+	
+	<select id="searchQnaBoard" parameterClass="String" resultClass="kr.or.ddit.board.vo.QnaBoardVO">
+		SELECT A.QNA_NM       qnaNm
+			 , A.QNA_TITLE    qnaTitle
+			 , A.QNA_CONTENT  qnaContent
+			 , A.QNA_DATE     qnaDate
+			 , (
+			 	SELECT B.USER_NICKNAME 
+			 	FROM   TB_USER B
+			 	WHERE  B.USER_ID = A.USER_ID
+			 	)             qnaWriter 
+			 , A.ATCH_FILE_ID atchFileId
+		FROM   QNA_BOARD A			
+		WHERE  1=1
+		AND    A.QNA_STATE = 'Y'
+		AND    A.QNA_TITLE LIKE '%' || #qnaTitle# || '%'
+		OR     (
+			 	SELECT B.USER_NICKNAME 
+			 	FROM   TB_USER B
+			 	WHERE  B.USER_ID = A.USER_ID
+			 	) LIKE '%' || #qnaWriter# || '%'
+	</select>
+</sqlMap>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="order">
+
+	<!-- 주문하기 -->
+	<insert id="makeOrder" parameterClass="kr.or.ddit.user.vo.OrderVO">
+		INSERT INTO TB_ORDER(
+			ORDER_NM
+			,ORDER_STATE
+			,PJ_NM
+			,PJ_NAME
+			,USER_ID
+			,ORDER_TIME
+			,ORDER_PRICE
+			,PO_NAME
+			,ATCH_FILE_ID
+		)
+		VALUES (
+			TB_ORDER_SEQ.NEXTVAL
+			,'완료'
+			,#pjNm#
+			,#pjName#
+			,#userId#
+			,SYSDATE
+			,#orderPrice#
+			,#poName#
+			,#atchFileId#
+		)
+	</insert>
+	
+	<!-- 주문목록 -->
+	<select id="getOrderList" parameterClass="String" resultClass="kr.or.ddit.user.vo.OrderVO">
+		SELECT ORDER_NM     orderNm
+			 , ORDER_BILL   orderBill
+			 , ORDER_STATE  orderState
+			 , PJ_NM        pjNm
+			 , PJ_NAME      pjName
+			 , USER_ID      userId
+			 , ORDER_TIME   orderTime
+			 , ORDER_PRICE  orderPrice
+			 , PO_NAME      poName
+			 , ATCH_FILE_ID atchFileId
+		FROM   TB_ORDER     
+		WHERE  USER_ID = #userId#
+	</select>
+	
+	<!-- 프로젝트 하나의 주문 -->	
+	<select id="getOrder" parameterClass="long" resultClass="kr.or.ddit.user.vo.OrderVO">
+		SELECT ORDER_NM     orderNm
+			 , ORDER_BILL   orderBill
+			 , ORDER_STATE  orderState
+			 , PJ_NM        pjNm
+			 , USER_ID      userId
+			 , ORDER_TIME   orderTime
+			 , ORDER_PRICE  orderPrice
+			 , PO_NAME      poName
+			 , ATCH_FILE_ID atchFileId
+		FROM   TB_ORDER
+		WHERE  PJ_NM = #pjNm#
+	</select>
+	
+	
+</sqlMap>
